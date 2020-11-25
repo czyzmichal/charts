@@ -65,6 +65,15 @@ class ChartGestureDetector {
       onScaleStart: wantDrag ? onScaleStart : null,
       onScaleUpdate: wantDrag ? onScaleUpdate : null,
       onScaleEnd: wantDrag ? onScaleEnd : null,
+      onHorizontalDragUpdate: (details) {
+        onScaleUpdate(ScaleUpdateDetails(focalPoint: details.globalPosition));
+      },
+      onHorizontalDragStart: (details) {
+        onScaleStart(ScaleStartDetails(focalPoint: details.globalPosition));
+      },
+      onHorizontalDragEnd: (details) {
+        onScaleEnd(ScaleEndDetails(velocity: details.velocity));
+      },
     );
   }
 
