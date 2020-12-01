@@ -207,7 +207,7 @@ class PanBehavior<D> implements ChartBehavior<D> {
     _chart.redraw();
 
     if (_panningCompletedCallback != null) {
-      _panningCompletedCallback();
+      _panningCompletedCallback(_chart.domainAxis.axisTicks);
     }
   }
 
@@ -218,4 +218,4 @@ class PanBehavior<D> implements ChartBehavior<D> {
 }
 
 /// Callback for when panning is completed.
-typedef PanningCompletedCallback = void Function();
+typedef PanningCompletedCallback = void Function(dynamic);

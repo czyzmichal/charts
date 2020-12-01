@@ -151,7 +151,7 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
   List<Tick> _providedTicks;
 
   /// Ticks used by the axis for drawing.
-  final _axisTicks = <AxisTicks<D>>[];
+  final axisTicks = <AxisTicks<D>>[];
 
   Rectangle<int> _componentBounds;
   Rectangle<int> _drawAreaBounds;
@@ -308,7 +308,7 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
 
     final providedTicks = List.from(_providedTicks ?? []);
 
-    for (AxisTicks<D> animatedTick in _axisTicks) {
+    for (AxisTicks<D> animatedTick in axisTicks) {
       final tick = providedTicks?.firstWhere(
           (t) => t.value == animatedTick.value,
           orElse: () => null);
@@ -335,10 +335,10 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
       if (_previousScale != null) {
         animatedTick.animateInFrom(_previousScale[tick.value].toDouble());
       }
-      _axisTicks.add(animatedTick);
+      axisTicks.add(animatedTick);
     });
 
-    _axisTicks.sort();
+    axisTicks.sort();
 
     // Save a copy of the current scale to be used as the previous scale when
     // ticks are updated.
@@ -516,18 +516,18 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
   @override
   void paint(ChartCanvas canvas, double animationPercent) {
     if (animationPercent == 1.0) {
-      _axisTicks.removeWhere((t) => t.markedForRemoval);
+      axisTicks.removeWhere((t) => t.markedForRemoval);
     }
 
-    for (var i = 0; i < _axisTicks.length; i++) {
-      final animatedTick = _axisTicks[i];
+    for (var i = 0; i < axisTicks.length; i++) {
+      final animatedTick = axisTicks[i];
       tickDrawStrategy.draw(
           canvas, animatedTick..setCurrentTick(animationPercent),
           orientation: axisOrientation,
           axisBounds: _componentBounds,
           drawAreaBounds: _drawAreaBounds,
           isFirst: i == 0,
-          isLast: i == _axisTicks.length - 1);
+          isLast: i == axisTicks.length - 1);
     }
 
     if (drawAxisLine) {
@@ -615,7 +615,7 @@ class AxisTester<D> {
 
   AxisTester(this._axis);
 
-  List<AxisTicks<D>> get axisTicks => _axis._axisTicks;
+  List<AxisTicks<D>> get axisTicks => _axis.axisTicks;
 
   MutableScale<D> get scale => _axis._scale;
 
